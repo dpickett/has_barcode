@@ -4,6 +4,8 @@ require 'has_barcode'
 require 'spec'
 require 'spec/autorun'
 
+require 'spec/models/has_png_barcode'
+
 Spec::Runner.configure do |config|
   
 end
