@@ -1,6 +1,21 @@
 = has_barcode
 
-Description goes here.
+A nice wrapper for Barcode generation using barby
+
+  class SomethingImportant
+    has_barcode :barcode, 
+      :outputter => :png, 
+      :type => :code_39,
+      :value => Proc.new{|p| p.number}
+
+    def number
+      self.id
+    end
+  end
+
+  SomethingImportant.new.barcode
+  SomethingImportant.new.barcode_data
+
 
 == Note on Patches/Pull Requests
  

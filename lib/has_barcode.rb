@@ -11,17 +11,23 @@ module HasBarcode
 
   module ClassMethods
     def has_barcode(*args)
-      include InstanceMethods
       options = args.extract_options!
-      @barcode_configurations ||= {}
-      @barcode_configurations[args.first] = HasBarcode::Configuration.new(options)
+      @@barcode_configurations ||= {}
+      @@barcode_configurations[args.first] = HasBarcode::Configuration.new(options)
+
+      define_method args.first do
+        @@barcode_configurations[args.first].barcode_class.new(options[:value].call(self))      
+      end
+
+      define_method "#{args.first}_data" do
+        send(args.first).send("to_#{options[:outputter]}")
+      end
+
     end
 
     def barcode_configurations
-      @barcode_configurations
+      @@barcode_configurations
     end
   end
 
-  module InstanceMethods
-  end
 end
