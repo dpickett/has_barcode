@@ -13,8 +13,8 @@ A nice wrapper for Barcode generation using barby
     end
   end
 
-  SomethingImportant.new.barcode
-  SomethingImportant.new.barcode_data
+  SomethingImportant.new.barcode => Barby::Code39 object
+  SomethingImportant.new.barcode_data => <Barby::Code39 object>.to_png
 
 
 == Note on Patches/Pull Requests
