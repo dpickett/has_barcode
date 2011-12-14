@@ -16,7 +16,11 @@ module HasBarcode
       @@barcode_configurations[args.first] = HasBarcode::Configuration.new(options)
 
       define_method args.first do
-        @@barcode_configurations[args.first].barcode_class.new(options[:value].call(self))      
+        if options[:type] == :code_128
+          @@barcode_configurations[args.first].barcode_class.new(options[:value].call(self), 'A')
+        else
+          @@barcode_configurations[args.first].barcode_class.new(options[:value].call(self))
+        end
       end
 
       define_method "#{args.first}_data" do

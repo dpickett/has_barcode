@@ -1,24 +1,47 @@
 = has_barcode
 
-A nice wrapper for Barcode generation using barby
+A nice wrapper for Barcode generation using {barby}[https://github.com/toretore/barby].
 
-  class SomethingImportant
-    has_barcode :barcode, 
-      :outputter => :png, 
+  class Product
+    include HasBarcode
+
+    has_barcode :barcode,
+      :outputter => :png,
       :type => :code_39,
-      :value => Proc.new{|p| p.number}
+      :value => Proc.new { |p| p.number }
 
     def number
       self.id
     end
   end
 
-  SomethingImportant.new.barcode => Barby::Code39 object
-  SomethingImportant.new.barcode_data => <Barby::Code39 object>.to_png
+  Product.new.barcode       # => Barby::Code39 object
+  Product.new.barcode_data  # => <Barby::Code39 object>.to_png
+
+== Why has_barcode is a good choice for Heroku
+Other libraries – such as {barcode_generator}[https://github.com/anujluthra/barcode-generator] – commonly rely on {gbarcode}[https://github.com/ahx/gbarcode], a GNU Barcode C library. This is problem since you need to install GNU barcode which {Heroku does not support}[https://github.com/perezd/barcoder/issues/1]. Luckily <tt>has_barcode</tt> doesn't have this dependency.
+
+A typical Heroku setup might look like:
+
+  class Coupon < ActiveRecord::Base
+    include HasBarcode
+
+    has_barcode :barcode,
+      :outputter => :svg,
+      :type => :code_39,
+      :value => Proc.new { |c| c.id }
+
+  end
+
+Notice we're using the <tt>svg</tt> outputter. This is good choice since it doesn't need to store images in the file system, which can be an issue given {Heroku's read only file system}[http://devcenter.heroku.com/articles/read-only-filesystem].
+
+To display your barcode in the view, do something like:
+
+  @coupon.barcode_data.html_safe
 
 
 == Note on Patches/Pull Requests
- 
+
 * Fork the project.
 * Make your feature addition or bug fix.
 * Add tests for it. This is important so I don't break it in a
