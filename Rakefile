@@ -8,7 +8,7 @@ begin
   RSpec::Core::RakeTask.new do |t|
   end
 
-  task default: :spec
+  task :default => :spec
 
 rescue LoadError
   puts "RSpec is not installed"
