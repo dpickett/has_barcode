@@ -1,5 +1,8 @@
 require "rubygems"
+require "i18n"
 require "active_support"
+require "active_support/hash_with_indifferent_access.rb"
+require "active_support/inflector.rb"
 require "barby"
 
 require "has_barcode/configuration"
