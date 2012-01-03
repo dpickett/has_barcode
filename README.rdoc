@@ -1,5 +1,7 @@
 = has_barcode
 
+{<img src="https://secure.travis-ci.org/dpickett/has_barcode.png" />}[http://travis-ci.org/dpickett/has_barcode]
+
 A nice wrapper for Barcode generation using {barby}[https://github.com/toretore/barby].
 
   class Product
