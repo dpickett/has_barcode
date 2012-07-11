@@ -29,4 +29,9 @@ describe "an instance that has a barcode" do
   it "should have barcode data that corresponds to the outputter" do
     @model.barcode_data.should eql(Barby::Code39.new(@model.random_string_of_numbers).to_png)
   end
+
+  it "should have pass the opts from barcode data to outputter" do
+    opts = { :xdim => 2 }
+    @model.barcode_data(opts).should eql(Barby::Code39.new(@model.random_string_of_numbers).to_png(opts))
+  end
 end
