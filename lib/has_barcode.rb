@@ -26,8 +26,12 @@ module HasBarcode
         end
       end
 
-      define_method "#{args.first}_data" do
-        send(args.first).send("to_#{options[:outputter]}")
+      define_method "#{args.first}_data" do |opts|
+        if opts
+          send(args.first).send("to_#{options[:outputter]}", opts)
+        else
+          send(args.first).send("to_#{options[:outputter]}")
+        end
       end
 
     end
