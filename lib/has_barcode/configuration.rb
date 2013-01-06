@@ -7,7 +7,7 @@ module HasBarcode
       @name = args.first
 
       require "barby/barcode/#{opts[:type]}"
-      @barcode_class = Barby.const_get(ActiveSupport::Inflector.classify("#{opts[:type].to_s}"))
+      @barcode_class = opts[:type_class] || Barby.const_get(ActiveSupport::Inflector.classify("#{opts[:type].to_s}"))
 
       require "barby/outputter/#{opts[:outputter]}_outputter"
       @outputter = Barby.const_get(ActiveSupport::Inflector.classify("#{opts[:outputter]}_outputter"))
