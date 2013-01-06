@@ -34,6 +34,11 @@ module HasBarcode
         end
       end
 
+      define_method "#{args.first}_config" do
+        @@barcode_configurations[args.first]
+      end
+
+
     end
 
     def barcode_configurations
