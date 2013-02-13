@@ -8,17 +8,31 @@ describe "a barcode configuration" do
     )
   end
 
-  it "should have a name" do
+  it "has a name" do
     @configuration.name.should_not be_nil
     @configuration.name.should eql(:barcode)
   end
 
-  it "should have a barcode class" do
+  it "has a barcode class derived from the symbol" do
     @configuration.barcode_class.should eql(Barby::Code39)
   end
 
-  it "should have an outputter" do
+  it "has a barcode class that can be derived via string" do
+    @configuration = HasBarcode::Configuration.new(:barcode,
+      :outputter => :png,
+      :type => 'code_39'
+    )
+    @configuration.barcode_class.should eql(Barby::Code39)
+  end
 
-  end 
+  it 'can take a barcode class directly' do
+    require 'barby/barcode/code_39'
+    @configuration = HasBarcode::Configuration.new(:barcode,
+      :outputter => :png,
+      :type => Barby::Code39
+    )
+
+
+  end
 end
 

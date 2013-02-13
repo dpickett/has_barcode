@@ -20,6 +20,19 @@ A nice wrapper for Barcode generation using {barby}[https://github.com/toretore/
   Product.new.barcode       # => Barby::Code39 object
   Product.new.barcode_data  # => <Barby::Code39 object>.to_png
 
+You can also pass the Barby barcode type directly like:
+
+  require 'barby/barcode/code_39'
+  class Product
+    include HasBarcode
+
+    has_barcode :barcode,
+      :outputter => :png,
+      :type => Barby::Code39,
+      :value => Proc.new { |p| p.number }
+  end
+
+
 == Why has_barcode is a good choice for Heroku
 Other libraries – such as {barcode_generator}[https://github.com/anujluthra/barcode-generator] – commonly rely on {gbarcode}[https://github.com/ahx/gbarcode], a GNU Barcode C library. This is problem since you need to install GNU barcode which {Heroku does not support}[https://github.com/perezd/barcoder/issues/1]. Luckily <tt>has_barcode</tt> doesn't have this dependency.
 
