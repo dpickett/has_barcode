@@ -42,14 +42,4 @@ describe "a barcode configuration" do
     }.should_not raise_error( LoadError )
   end
   
-  it 'annotate_pdf should not throw exception during require' do
-    proc {
-      HasBarcode::Configuration.new(:barcode,
-        :outputter => :annotate_pdf,
-        :type => :EAN_13
-      )
-    }.should_not raise_error( LoadError )
-  end
-  
 end
-
