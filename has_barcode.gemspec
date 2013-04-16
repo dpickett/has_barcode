@@ -23,4 +23,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency("rspec", [">= 0"])
   gem.add_development_dependency("chunky_png", [">= 0"])
   gem.add_development_dependency("yard", [">= 0"])
+  gem.add_development_dependency("prawn", [">= 0"])
 end

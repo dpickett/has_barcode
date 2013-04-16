@@ -13,10 +13,19 @@ module HasBarcode
         @barcode_class = opts[:type]
       end
 
-      require "barby/outputter/#{opts[:outputter]}_outputter"
-      @outputter = Barby.const_get(ActiveSupport::Inflector.classify("#{opts[:outputter]}_outputter"))
+      outputter_name = name_from_outputter(opts[:outputter])
+      require "barby/outputter/#{outputter_name}_outputter"
+      @outputter = Barby.const_get(ActiveSupport::Inflector.classify("#{outputter_name}_outputter"))
     end
-
-
+    
+    private
+    def name_from_outputter(outputter)
+      case outputter.to_sym
+        when :pdf , :annotate_pdf
+          :prawn
+        else
+          outputter
+      end
+    end
   end
 end
