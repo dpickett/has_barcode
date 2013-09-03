@@ -27,10 +27,16 @@ module HasBarcode
       end
 
       define_method "#{args.first}_data" do |*meth_args|
-        if meth_args
-          send(args.first).send("to_#{options[:outputter]}", *meth_args)
+        method_name = if options[:outputter].to_sym == :annotate_pdf
+          "annotate_pdf"
         else
-          send(args.first).send("to_#{options[:outputter]}")
+          "to_#{options[:outputter]}"
+        end
+        
+        if meth_args
+          send(args.first).send(method_name, *meth_args)
+        else
+          send(args.first).send(method_name)
         end
       end
 

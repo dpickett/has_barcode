@@ -7,16 +7,25 @@ module HasBarcode
       @name = args.first
 
       if opts[:type].kind_of?(String) || opts[:type].kind_of?(Symbol)
-        require "barby/barcode/#{opts[:type]}"
+        require "barby/barcode/#{opts[:type].downcase}"
         @barcode_class = Barby.const_get(ActiveSupport::Inflector.classify("#{opts[:type].to_s}"))
       else
         @barcode_class = opts[:type]
       end
 
-      require "barby/outputter/#{opts[:outputter]}_outputter"
-      @outputter = Barby.const_get(ActiveSupport::Inflector.classify("#{opts[:outputter]}_outputter"))
+      outputter_name = name_from_outputter(opts[:outputter].downcase)
+      require "barby/outputter/#{outputter_name}_outputter"
+      @outputter = Barby.const_get(ActiveSupport::Inflector.classify("#{outputter_name}_outputter"))
     end
-
-
+    
+    private
+    def name_from_outputter(outputter)
+      case outputter.to_sym
+        when :pdf , :annotate_pdf
+          :prawn
+        else
+          outputter
+      end
+    end
   end
 end

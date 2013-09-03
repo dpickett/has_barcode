@@ -32,6 +32,36 @@ You can also pass the Barby barcode type directly like:
       :value => Proc.new { |p| p.number }
   end
 
+You should add 'Prawn' to Gemfile when using pdf or annotate_pdf
+
+  require 'barby/barcode/ean_13'
+  class Product
+    include HasBarcode
+
+    has_barcode :barcode,
+      :outputter => :pdf,
+      :type => Barby::EAN13,
+      :value => Proc.new { |p| p.number }
+  end
+
+
+  require 'barby/barcode/ean_13'
+  class Product
+    include HasBarcode
+
+    has_barcode :barcode,
+      :outputter => :annotate_pdf,
+      :type => Barby::EAN13,
+      :value => Proc.new { |p| p.number }
+  end
+
+
+You can use it with has_barcode 
+
+    #/app/views/barcode/barcode.pdf.prawn
+    prawn_document() do |pdf|
+      barcode.barcode_annotate_data(pdf)
+    end
 
 == Why has_barcode is a good choice for Heroku
 Other libraries – such as {barcode_generator}[https://github.com/anujluthra/barcode-generator] – commonly rely on {gbarcode}[https://github.com/ahx/gbarcode], a GNU Barcode C library. This is problem since you need to install GNU barcode which {Heroku does not support}[https://github.com/perezd/barcoder/issues/1]. Luckily <tt>has_barcode</tt> doesn't have this dependency.
